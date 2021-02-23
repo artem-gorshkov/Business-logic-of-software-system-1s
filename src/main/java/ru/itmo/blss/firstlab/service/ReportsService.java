@@ -8,6 +8,8 @@ import ru.itmo.blss.firstlab.data.entity.Status;
 import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.ReportRepository;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ReportsService {
@@ -16,6 +18,15 @@ public class ReportsService {
     private final ReportRepository reportRepository;
     private final CommentsService commentsService;
 
+    public Iterable<Report> getAllReports() {
+        return reportRepository.findAll();
+    }
+
+    public List<Report> getPendingReports() {
+        Status submittedStatus = statusService.getSubmittedStatus();
+        return reportRepository.getAllByStatus(submittedStatus);
+    }
+
     public void newReport(Comment comment) {
         Report report = new Report();
         report.setComment(comment);
@@ -23,12 +34,14 @@ public class ReportsService {
         reportRepository.save(report);
     }
 
-    public void markReportRejected(Report report) {
+    public void markReportRejected(int reportId) {
+        Report report = reportRepository.findById(reportId).orElseThrow();
         report.setStatus(statusService.getRejectedStatus());
         reportRepository.save(report);
     }
 
-    public void markReportAccepted(Report report) {
+    public void markReportAccepted(int reportId) {
+        Report report = reportRepository.findById(reportId).orElseThrow();
         Comment comment = report.getComment();
         commentsService.deleteComment(comment);
 

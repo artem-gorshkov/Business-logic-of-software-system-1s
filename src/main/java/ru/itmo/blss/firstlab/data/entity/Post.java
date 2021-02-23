@@ -21,6 +21,6 @@ public class Post {
     @CreationTimestamp
     private LocalDateTime created;
     @OneToMany
-    @JoinColumn(name = "post")
+    @JoinColumn(name = "post_id")
     private Set<Comment> comments;
 }

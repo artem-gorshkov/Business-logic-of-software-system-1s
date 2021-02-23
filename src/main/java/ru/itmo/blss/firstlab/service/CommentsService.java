@@ -1,0 +1,49 @@
+package ru.itmo.blss.firstlab.service;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import ru.itmo.blss.firstlab.data.dto.CommentDTO;
+import ru.itmo.blss.firstlab.data.entity.Comment;
+import ru.itmo.blss.firstlab.data.entity.Post;
+import ru.itmo.blss.firstlab.data.entity.User;
+import ru.itmo.blss.firstlab.data.repository.CommentRepository;
+
+import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Service
+@AllArgsConstructor
+public class CommentsService {
+    private final CommentRepository commentRepository;
+    private final UserService userService;
+    private final PostsService postsService;
+
+    public Iterable<Comment> getPostComments(Post post) {
+        return commentRepository.findCommentsByPost(post);
+    }
+
+    public Iterable<Comment> getPostComments(int postId) {
+        return commentRepository.findCommentsByPostId(postId);
+    }
+
+    public Comment getCommentById(int id) {
+        Optional<Comment> comment = commentRepository.findById(id);
+        if (comment.isPresent()) return comment.get();
+        else throw new EntityNotFoundException(String.format("No comment with id = %d", id));
+    }
+
+    public Comment newCommentForPost(CommentDTO commentDTO, int postId) {
+        Comment comment = new Comment();
+
+        User user = userService.getById(commentDTO.authorId);
+        comment.setAuthor(user);
+
+        Post post = postsService.getPostById(postId);
+        comment.setPost(post);
+
+        comment.setPayload(commentDTO.payload);
+        comment.setCreated(LocalDateTime.now());
+        return commentRepository.save(comment);
+    }
+}

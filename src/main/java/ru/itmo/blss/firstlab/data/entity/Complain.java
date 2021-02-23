@@ -19,7 +19,7 @@ public class Complain {
     @ManyToOne
     private Comment comment;
     @ManyToOne
-    private Users author;
+    private User author;
     @ManyToOne
     private Status status;
     @CreationTimestamp

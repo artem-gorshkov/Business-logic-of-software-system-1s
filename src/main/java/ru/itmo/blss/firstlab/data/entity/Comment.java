@@ -19,7 +19,7 @@ public class Comment {
     @ManyToOne
     private Post post;
     @ManyToOne
-    private Users author;
+    private User author;
     @CreationTimestamp
     private LocalDateTime created;
 }

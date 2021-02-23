@@ -5,8 +5,6 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.Set;
 
 @Data
 @Entity
@@ -15,7 +13,7 @@ public class Role {
     @GeneratedValue
     private Integer id;
     private String name;
-    @ManyToMany(mappedBy="roles")
-    private Set<Users> users;
+    /*@ManyToMany(mappedBy = "roles")
+    private Set<User> users;*/
 
 }

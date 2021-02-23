@@ -1,5 +1,8 @@
 package ru.itmo.blss.firstlab.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,6 +14,9 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Complain {
     @Id
     @GeneratedValue
@@ -22,5 +28,4 @@ public class Complain {
     private User author;
     @CreationTimestamp
     private LocalDateTime created;
-
 }

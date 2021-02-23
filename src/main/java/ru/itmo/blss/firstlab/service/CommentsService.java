@@ -9,6 +9,7 @@ import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.CommentRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -17,11 +18,11 @@ public class CommentsService {
     private final UserService userService;
     private final PostsService postsService;
 
-    public Iterable<Comment> getPostComments(Post post) {
+    public List<Comment> getPostComments(Post post) {
         return commentRepository.findCommentsByPost(post);
     }
 
-    public Iterable<Comment> getPostComments(int postId) {
+    public List<Comment> getPostComments(int postId) {
         return commentRepository.findCommentsByPostId(postId);
     }
 

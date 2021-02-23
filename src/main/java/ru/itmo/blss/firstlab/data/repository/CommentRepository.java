@@ -4,8 +4,11 @@ import org.springframework.data.repository.CrudRepository;
 import ru.itmo.blss.firstlab.data.entity.Comment;
 import ru.itmo.blss.firstlab.data.entity.Post;
 
+import java.util.List;
+
 public interface CommentRepository extends CrudRepository<Comment, Integer> {
 
-    public Iterable<Comment> findCommentsByPost(Post post);
-    public Iterable<Comment> findCommentsByPostId(int postId);
+    List<Comment> findCommentsByPost(Post post);
+
+    List<Comment> findCommentsByPostId(int postId);
 }

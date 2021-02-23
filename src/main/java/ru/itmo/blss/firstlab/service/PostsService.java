@@ -7,6 +7,7 @@ import ru.itmo.blss.firstlab.data.entity.Post;
 import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.PostRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 @Service
@@ -20,7 +21,8 @@ public class PostsService {
     }
 
     public Post getPostById(int id) {
-         return postRepository.findById(id).orElseThrow();
+         return postRepository.findById(id)
+                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
     public Post newPost(PostDTO postDTO) {

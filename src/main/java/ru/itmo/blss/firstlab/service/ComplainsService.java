@@ -8,6 +8,7 @@ import ru.itmo.blss.firstlab.data.entity.Complain;
 import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.ComplainRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 @Service
@@ -19,7 +20,8 @@ public class ComplainsService {
     private final ReportsService reportsService;
 
     public Complain getComplainById(int id) {
-        return complainRepository.findById(id).orElseThrow();
+        return complainRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
     public Complain newComplainForComment(int commentId, ComplainDTO complainDTO) {

@@ -8,6 +8,7 @@ import ru.itmo.blss.firstlab.data.entity.Post;
 import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.CommentRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class CommentsService {
     }
 
     public Comment getCommentById(int id) {
-        return commentRepository.findById(id).orElseThrow();
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
     public Comment newCommentForPost(CommentDTO commentDTO, int postId) {
@@ -40,12 +42,12 @@ public class CommentsService {
         comment.setPost(post);
 
         comment.setPayload(commentDTO.payload);
-        comment.setCreated(LocalDateTime.now());
         return commentRepository.save(comment);
     }
 
     public void deleteComment(int id) {
-        Comment comment = commentRepository.findById(id).orElseThrow();
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
         comment.setDeleted(true);
         commentRepository.save(comment);
     }

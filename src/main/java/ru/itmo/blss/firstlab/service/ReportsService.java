@@ -8,6 +8,7 @@ import ru.itmo.blss.firstlab.data.entity.Status;
 import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.ReportRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -35,19 +36,21 @@ public class ReportsService {
     }
 
     public void markReportRejected(int reportId) {
-        Report report = reportRepository.findById(reportId).orElseThrow();
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
         report.setStatus(statusService.getRejectedStatus());
         reportRepository.save(report);
     }
 
     public void markReportAccepted(int reportId) {
-        Report report = reportRepository.findById(reportId).orElseThrow();
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
         Comment comment = report.getComment();
         commentsService.deleteComment(comment);
 
         User commentAuthor = comment.getAuthor();
         Status acceptedStatus = statusService.getAcceptedStatus();
-        if (reportRepository.countReportsByCommentAuthorAndStatus(commentAuthor, acceptedStatus) > 1) {
+        if (reportRepository.countReportsByCommentAuthorAndStatus(commentAuthor, acceptedStatus) >= 1) {
             userService.banUser(comment.getAuthor());
         }
 

@@ -42,4 +42,10 @@ public class CommentsService {
         comment.setCreated(LocalDateTime.now());
         return commentRepository.save(comment);
     }
+
+    public void deleteComment(int id) {
+        Comment comment = commentRepository.findById(id).orElseThrow();
+        comment.setDeleted(true);
+        commentRepository.save(comment);
+    }
 }

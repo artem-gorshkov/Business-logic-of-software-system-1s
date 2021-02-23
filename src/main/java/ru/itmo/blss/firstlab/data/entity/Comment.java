@@ -22,4 +22,5 @@ public class Comment {
     private User author;
     @CreationTimestamp
     private LocalDateTime created;
+    private boolean deleted;
 }

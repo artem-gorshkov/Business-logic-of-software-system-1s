@@ -12,4 +12,8 @@ public interface ReportRepository extends CrudRepository<Report, Integer> {
     Integer countReportsByCommentAuthorAndStatus(User author, Status status);
 
     List<Report> getAllByStatus(Status status);
+
+    List<Report> getAllByCommentAuthor(User author);
+
+    List<Report> getAllByCommentAuthorAndStatus(User author, Status status);
 }

@@ -54,4 +54,18 @@ public class ReportsService {
         report.setStatus(acceptedStatus);
         reportRepository.save(report);
     }
+
+    public List<Report> getUserReports(int userId, boolean accepted) {
+        User user = userService.getById(userId);
+        Status status;
+        if (accepted) {
+            status = statusService.getAcceptedStatus();
+        } else status = statusService.getRejectedStatus();
+        return reportRepository.getAllByCommentAuthorAndStatus(user, status);
+    }
+
+    public List<Report> getUserReports(int userId) {
+        User user = userService.getById(userId);
+        return reportRepository.getAllByCommentAuthor(user);
+    }
 }

@@ -8,6 +8,7 @@ import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.RoleRepository;
 import ru.itmo.blss.firstlab.data.repository.UsersRepository;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Service
@@ -31,4 +32,8 @@ public class UserService {
         return usersRepository.save(user);
     }
 
+    public void banUser(User user) {
+        user.setBlocked(true);
+        user.setWhenBlocked(LocalDateTime.now());
+    }
 }

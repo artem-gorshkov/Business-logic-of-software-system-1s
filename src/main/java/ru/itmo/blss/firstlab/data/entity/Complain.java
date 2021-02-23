@@ -20,8 +20,6 @@ public class Complain {
     private Comment comment;
     @ManyToOne
     private User author;
-    @ManyToOne
-    private Status status;
     @CreationTimestamp
     private LocalDateTime created;
 

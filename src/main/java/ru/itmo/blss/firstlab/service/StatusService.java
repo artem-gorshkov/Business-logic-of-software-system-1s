@@ -13,4 +13,12 @@ public class StatusService {
     public Status getSubmittedStatus() {
         return statusRepository.getStatusByName("Submitted");
     }
+
+    public Status getRejectedStatus() {
+        return statusRepository.getStatusByName("Rejected");
+    }
+
+    public Status getAcceptedStatus() {
+        return statusRepository.getStatusByName("Accepted");
+    }
 }

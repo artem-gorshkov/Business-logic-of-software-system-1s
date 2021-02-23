@@ -8,9 +8,7 @@ import ru.itmo.blss.firstlab.data.entity.Post;
 import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.CommentRepository;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -28,9 +26,7 @@ public class CommentsService {
     }
 
     public Comment getCommentById(int id) {
-        Optional<Comment> comment = commentRepository.findById(id);
-        if (comment.isPresent()) return comment.get();
-        else throw new EntityNotFoundException(String.format("No comment with id = %d", id));
+        return commentRepository.findById(id).orElseThrow();
     }
 
     public Comment newCommentForPost(CommentDTO commentDTO, int postId) {

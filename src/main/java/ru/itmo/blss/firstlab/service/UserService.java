@@ -8,10 +8,6 @@ import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.RoleRepository;
 import ru.itmo.blss.firstlab.data.repository.UsersRepository;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,9 +17,7 @@ public class UserService {
     private final RoleRepository roleRepository;
 
     public User getById(int id) {
-        Optional<User> user = usersRepository.findById(id);
-        if (user.isPresent()) return user.get();
-        else throw new EntityNotFoundException(String.format("No user with id = %d", id));
+        return usersRepository.findById(id).orElseThrow();
     }
 
     public User newUser(UserDTO userDTO) {

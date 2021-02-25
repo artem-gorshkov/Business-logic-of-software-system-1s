@@ -37,7 +37,7 @@ public class ComplainsService {
         complain.setCreated(LocalDateTime.now());
         complain = complainRepository.save(complain);
 
-        if (complainRepository.countComplainsByComment(comment) >= 5) {
+        if (complainRepository.countComplainsByComment(comment) == 5) {
             reportsService.newReport(comment);
         }
 

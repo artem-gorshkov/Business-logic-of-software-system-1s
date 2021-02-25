@@ -10,6 +10,8 @@ import ru.itmo.blss.firstlab.data.repository.UsersRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -29,7 +31,9 @@ public class UserService {
         user.setPassword(userDTO.password);
 
         Role role = roleRepository.findByName("USER");
-        user.setRoles(Set.of(role));
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
 
         return usersRepository.save(user);
     }

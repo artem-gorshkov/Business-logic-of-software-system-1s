@@ -1,6 +1,7 @@
 package ru.itmo.blss.firstlab.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itmo.blss.firstlab.data.dto.UserDTO;
 import ru.itmo.blss.firstlab.data.entity.Role;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class UserService {
     private final UsersRepository usersRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User getById(int id) {
         return usersRepository.findById(id)
@@ -28,9 +30,9 @@ public class UserService {
     public User newUser(UserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.login);
-        user.setPassword(userDTO.password);
+        user.setPassword(passwordEncoder.encode(userDTO.password));
 
-        Role role = roleRepository.findByName("USER");
+        Role role = roleRepository.findByName("ROLE_USER");
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
@@ -41,5 +43,18 @@ public class UserService {
     public void banUser(User user) {
         user.setBlocked(true);
         user.setWhenBlocked(LocalDateTime.now());
+    }
+
+    public User newAdmin(UserDTO userDTO) {
+        User user = new User();
+        user.setLogin(userDTO.login);
+        user.setPassword(passwordEncoder.encode(userDTO.password));
+
+        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
+        return usersRepository.save(user);
     }
 }

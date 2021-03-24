@@ -38,4 +38,15 @@ public class UsersController {
         if (accepted != null) return reportsService.getUserReports(id, accepted);
         return reportsService.getUserReports(id);
     }
+
+    @GetMapping("/moderators")
+    @ApiOperation("Получить список модераторов")
+    public List<User> getModerators() {
+        return userService.getModerators();
+    }
+
+    @PostMapping("/moderators")
+    public void addModerator(@RequestBody String login) {
+        userService.addModerator(login);
+    }
 }

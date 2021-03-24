@@ -11,6 +11,8 @@ import ru.itmo.blss.firstlab.data.entity.Post;
 import ru.itmo.blss.firstlab.service.CommentsService;
 import ru.itmo.blss.firstlab.service.PostsService;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/posts")
 @AllArgsConstructor
@@ -27,8 +29,8 @@ public class PostsController {
 
     @PostMapping
     @ApiOperation("Создать новый пост")
-    public Post newPost(@RequestBody PostDTO postDTO) {
-        return postsService.newPost(postDTO);
+    public Post newPost(@RequestBody PostDTO postDTO, Principal principal) {
+        return postsService.newPost(postDTO, principal.getName());
     }
 
     @GetMapping("/{id}")

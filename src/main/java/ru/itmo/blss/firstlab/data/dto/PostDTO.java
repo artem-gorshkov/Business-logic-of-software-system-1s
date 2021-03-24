@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class PostDTO {
     public String title;
+    public String topic;
     public String payload;
-    public int authorId;
 }

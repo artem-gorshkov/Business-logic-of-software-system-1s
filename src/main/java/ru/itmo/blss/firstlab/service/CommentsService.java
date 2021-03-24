@@ -1,7 +1,9 @@
 package ru.itmo.blss.firstlab.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.itmo.blss.firstlab.data.dto.CommentDTO;
 import ru.itmo.blss.firstlab.data.entity.Comment;
 import ru.itmo.blss.firstlab.data.entity.Post;
@@ -45,14 +47,22 @@ public class CommentsService {
         return commentRepository.save(comment);
     }
 
-    public void deleteComment(int id) {
+    public void deleteComment(int id, String login) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
-        comment.setDeleted(true);
-        commentRepository.save(comment);
+        if (isCommentAuthor(login, comment)) {
+            deleteComment(comment);
+        } else  {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Недостаточно прав");
+        }
+    }
+
+    private boolean isCommentAuthor(String login, Comment comment) {
+        return comment.getAuthor().getLogin().equals(login);
     }
 
     public void deleteComment(Comment comment) {
-        deleteComment(comment.getId());
+        comment.setDeleted(true);
+        commentRepository.save(comment);
     }
 }

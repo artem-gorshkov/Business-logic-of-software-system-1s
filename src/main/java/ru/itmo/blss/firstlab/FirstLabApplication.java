@@ -24,7 +24,7 @@ public class FirstLabApplication {
     InitializingBean sendDatabase() {
         return () -> {
             userService.newUser(new UserDTO("vasya", "vasya"));
-            userService.newAdmin(new UserDTO("saha", "saha"));
+            userService.newModerator(new UserDTO("saha", "saha"));
         };
     }
 }

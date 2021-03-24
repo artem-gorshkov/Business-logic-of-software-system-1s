@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -25,6 +26,22 @@ public class UserService {
     public User getById(int id) {
         return usersRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+    }
+
+    public User getByLogin(String login) {
+        return usersRepository.findByLogin(login)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(login)));
+    }
+
+    public List<User> getModerators() {
+        return usersRepository.findByRole("ROLE_MODERATOR");
+    }
+
+    public void addModerator(String login) {
+        User user = usersRepository.findByLogin(login)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(login)));
+        user.getRoles().add(roleRepository.findByName("ROLE_MODERATOR"));
+        usersRepository.save(user);
     }
 
     public User newUser(UserDTO userDTO) {
@@ -45,14 +62,33 @@ public class UserService {
         user.setWhenBlocked(LocalDateTime.now());
     }
 
+    public User newModerator(UserDTO userDTO) {
+        User user = new User();
+        user.setLogin(userDTO.login);
+        user.setPassword(passwordEncoder.encode(userDTO.password));
+
+        Role roleModerator = roleRepository.findByName("ROLE_MODERATOR");
+        Role roleUser = roleRepository.findByName("ROLE_USER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleModerator);
+        roles.add(roleUser);
+        user.setRoles(roles);
+
+        return usersRepository.save(user);
+    }
+
     public User newAdmin(UserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.login);
         user.setPassword(passwordEncoder.encode(userDTO.password));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
+        Role roleModerator = roleRepository.findByName("ROLE_MODERATOR");
+        Role roleUser = roleRepository.findByName("ROLE_USER");
         Set<Role> roles = new HashSet<>();
-        roles.add(role);
+        roles.add(roleAdmin);
+        roles.add(roleModerator);
+        roles.add(roleUser);
         user.setRoles(roles);
 
         return usersRepository.save(user);

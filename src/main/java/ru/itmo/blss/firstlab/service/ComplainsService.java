@@ -1,8 +1,9 @@
 package ru.itmo.blss.firstlab.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import ru.itmo.blss.firstlab.data.dto.ComplainDTO;
+import org.springframework.web.server.ResponseStatusException;
 import ru.itmo.blss.firstlab.data.entity.Comment;
 import ru.itmo.blss.firstlab.data.entity.Complain;
 import ru.itmo.blss.firstlab.data.entity.User;
@@ -24,16 +25,21 @@ public class ComplainsService {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
-    public Complain newComplainForComment(int commentId, ComplainDTO complainDTO) {
+    public Complain newComplainForComment(int commentId, String payload, String login) {
         Complain complain = new Complain();
 
         Comment comment = commentsService.getCommentById(commentId);
+
+        if (comment.getAuthor().getLogin().equals(login)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Нельзя жаловаться на свой комментарий");
+        }
+
         complain.setComment(comment);
 
-        User author = userService.getById(complainDTO.authorId);
+        User author = userService.getByLogin(login);
         complain.setAuthor(author);
 
-        complain.setPayload(complainDTO.payload);
+        complain.setPayload(payload);
         complain.setCreated(LocalDateTime.now());
         complain = complainRepository.save(complain);
 

@@ -26,6 +26,8 @@ public class Post {
     private String payload;
     @ManyToOne
     private User author;
+    @ManyToOne
+    private Topic topic;
     @CreationTimestamp
     private LocalDateTime created;
     @OneToMany

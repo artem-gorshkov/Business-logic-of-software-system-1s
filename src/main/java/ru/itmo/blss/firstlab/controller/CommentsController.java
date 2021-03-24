@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.itmo.blss.firstlab.service.CommentsService;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/comments")
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class CommentsController {
 
     @DeleteMapping("/{id}")
     @ApiOperation("Удалить комментарий")
-    public void deleteComment(@PathVariable int id) {
-        commentsService.deleteComment(id);
+    public void deleteComment(@PathVariable int id, Principal principal) {
+        commentsService.deleteComment(id, principal.getName());
     }
 }

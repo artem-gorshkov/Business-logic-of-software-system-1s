@@ -40,12 +40,13 @@ public class Post {
         return id.equals(post.id) &&
                 Objects.equals(title, post.title) &&
                 Objects.equals(payload, post.payload) &&
-                Objects.equals(created, post.created);
+                Objects.equals(created, post.created) &&
+                Objects.equals(isPaid, post.isPaid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, payload, created);
+        return Objects.hash(id, title, payload, created, isPaid);
     }
 
     @Override
@@ -56,6 +57,7 @@ public class Post {
                 ", payload='" + payload + '\'' +
                 ", author=" + author +
                 ", created=" + created +
+                ", isPaid=" + isPaid +
                 '}';
     }
 }

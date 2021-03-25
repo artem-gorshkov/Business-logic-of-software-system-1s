@@ -46,6 +46,6 @@ public class PostsService {
     }
 
     public List<Post> getAllPaidPosts() {
-        return postRepository.findAllByPaidIsTrue();
+        return postRepository.findAllByIsPaidTrue();
     }
 }

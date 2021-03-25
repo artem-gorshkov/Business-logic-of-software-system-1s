@@ -16,15 +16,14 @@ public class FirstLabApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(FirstLabApplication.class, args);
-
-
     }
 
     @Bean
     InitializingBean sendDatabase() {
         return () -> {
-            userService.newUser(new UserDTO("vasya", "vasya"));
-            userService.newModerator(new UserDTO("saha", "saha"));
+            userService.newUser(new UserDTO("user", "user"));
+            userService.newModerator(new UserDTO("moder", "moder"));
+            userService.newAdvert(new UserDTO("advert", "advert"));
         };
     }
 }

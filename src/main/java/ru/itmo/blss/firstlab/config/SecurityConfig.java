@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/api/advert/**").hasRole("ADVERT")
                         .anyRequest().authenticated()
                 )
+                .csrf().disable()
                 .formLogin(withDefaults());
     }
     // @formatter:on

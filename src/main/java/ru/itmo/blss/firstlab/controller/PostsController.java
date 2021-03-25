@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.itmo.blss.firstlab.data.dto.CommentDTO;
 import ru.itmo.blss.firstlab.data.dto.PostDTO;
 import ru.itmo.blss.firstlab.data.entity.Comment;
 import ru.itmo.blss.firstlab.data.entity.Post;
@@ -30,7 +29,7 @@ public class PostsController {
     @PostMapping
     @ApiOperation("Создать новый пост")
     public Post newPost(@RequestBody PostDTO postDTO, Principal principal) {
-        return postsService.newPost(postDTO, principal.getName());
+        return postsService.newPost(postDTO, principal.getName(), false);
     }
 
     @GetMapping("/{id}")
@@ -47,7 +46,7 @@ public class PostsController {
 
     @PostMapping("/{id}/comments")
     @ApiOperation("Добавить комментарий к посту")
-    public Comment addCommentForPost(@PathVariable int id, @RequestBody CommentDTO commentDTO) {
-        return commentsService.newCommentForPost(commentDTO, id);
+    public Comment addCommentForPost(@PathVariable int id, @RequestBody String comment, Principal principal) {
+        return commentsService.newCommentForPost(comment, id, principal.getName());
     }
 }

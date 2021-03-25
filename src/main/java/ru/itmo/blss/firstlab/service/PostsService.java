@@ -12,8 +12,8 @@ import ru.itmo.blss.firstlab.data.repository.PostRepository;
 import ru.itmo.blss.firstlab.data.repository.TopicRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -27,11 +27,11 @@ public class PostsService {
     }
 
     public Post getPostById(int id) {
-         return postRepository.findById(id)
-                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
+        return postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
-    public Post newPost(PostDTO postDTO, String login) {
+    public Post newPost(PostDTO postDTO, String login, boolean isPaid) {
         User user = userService.getByLogin(login);
         Post post = new Post();
         post.setAuthor(user);
@@ -41,6 +41,11 @@ public class PostsService {
         post.setTopic(topic);
         post.setPayload(postDTO.payload);
         post.setCreated(LocalDateTime.now());
+        post.setPaid(isPaid);
         return postRepository.save(post);
+    }
+
+    public List<Post> getAllPaidPosts() {
+        return postRepository.findAllByPaidIsTrue();
     }
 }

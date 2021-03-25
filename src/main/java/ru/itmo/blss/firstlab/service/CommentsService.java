@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import ru.itmo.blss.firstlab.data.dto.CommentDTO;
 import ru.itmo.blss.firstlab.data.entity.Comment;
 import ru.itmo.blss.firstlab.data.entity.Post;
 import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.CommentRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,16 +32,16 @@ public class CommentsService {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
-    public Comment newCommentForPost(CommentDTO commentDTO, int postId) {
+    public Comment newCommentForPost(String message, int postId, String authorLogin) {
         Comment comment = new Comment();
 
-        User user = userService.getById(commentDTO.authorId);
+        User user = userService.getByLogin(authorLogin);
         comment.setAuthor(user);
 
         Post post = postsService.getPostById(postId);
         comment.setPost(post);
 
-        comment.setPayload(commentDTO.payload);
+        comment.setPayload(message);
         return commentRepository.save(comment);
     }
 

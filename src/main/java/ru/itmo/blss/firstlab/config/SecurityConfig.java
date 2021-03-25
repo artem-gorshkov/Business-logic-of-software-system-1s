@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers(HttpMethod.GET, "/api/users/", "/api/users/*", "/api/users/moderators").permitAll()
                         .antMatchers("/api/reports/**").hasRole("MODERATOR")
                         .antMatchers("/api/topics/**", "/api/users/**").hasRole("ADMIN")
+                        .antMatchers("/api/advert/**").hasRole("ADVERT")
                         .anyRequest().authenticated()
                 )
                 .formLogin(withDefaults());

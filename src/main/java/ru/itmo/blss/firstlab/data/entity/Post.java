@@ -1,9 +1,6 @@
 package ru.itmo.blss.firstlab.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,6 +30,7 @@ public class Post {
     @OneToMany
     @JoinColumn(name = "post_id")
     private Set<Comment> comments;
+    private boolean isPaid;
 
     @Override
     public boolean equals(Object o) {

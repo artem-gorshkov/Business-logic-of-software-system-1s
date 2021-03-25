@@ -24,6 +24,7 @@ public class FirstLabApplication {
             userService.newUser(new UserDTO("user", "user"));
             userService.newModerator(new UserDTO("moder", "moder"));
             userService.newAdvert(new UserDTO("advert", "advert"));
+            userService.newAdmin(new UserDTO("admin", "admin"));
         };
     }
 }

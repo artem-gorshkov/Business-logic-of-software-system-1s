@@ -46,6 +46,7 @@ public class UsersController {
     }
 
     @PostMapping("/moderators")
+    @ApiOperation("Создать модератора")
     public void addModerator(@RequestBody String login) {
         userService.addModerator(login);
     }

@@ -84,10 +84,12 @@ public class UserService {
         Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
         Role roleModerator = roleRepository.findByName("ROLE_MODERATOR");
         Role roleUser = roleRepository.findByName("ROLE_USER");
+        Role roleAdvert = roleRepository.findByName("ROLE_ADVERT");
         Set<Role> roles = new HashSet<>();
         roles.add(roleAdmin);
         roles.add(roleModerator);
         roles.add(roleUser);
+        roles.add(roleAdvert);
         user.setRoles(roles);
 
         return usersRepository.save(user);

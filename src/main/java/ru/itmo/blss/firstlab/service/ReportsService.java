@@ -2,6 +2,7 @@ package ru.itmo.blss.firstlab.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itmo.blss.firstlab.data.entity.Comment;
 import ru.itmo.blss.firstlab.data.entity.Report;
 import ru.itmo.blss.firstlab.data.entity.Status;
@@ -35,6 +36,7 @@ public class ReportsService {
         reportRepository.save(report);
     }
 
+    @Transactional
     public void markReportRejected(int reportId) {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
@@ -42,6 +44,7 @@ public class ReportsService {
         reportRepository.save(report);
     }
 
+    @Transactional
     public void markReportAccepted(int reportId) {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));

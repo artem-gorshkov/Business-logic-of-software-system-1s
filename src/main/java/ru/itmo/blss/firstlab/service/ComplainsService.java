@@ -3,6 +3,7 @@ package ru.itmo.blss.firstlab.service;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.itmo.blss.firstlab.data.entity.Comment;
 import ru.itmo.blss.firstlab.data.entity.Complain;
@@ -25,6 +26,7 @@ public class ComplainsService {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
+    @Transactional
     public Complain newComplainForComment(int commentId, String payload, String login) {
         Complain complain = new Complain();
 

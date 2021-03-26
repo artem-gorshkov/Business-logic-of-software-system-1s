@@ -10,6 +10,8 @@ import ru.itmo.blss.firstlab.data.entity.User;
 import ru.itmo.blss.firstlab.data.repository.ReportRepository;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import java.util.List;
 
 @Service
@@ -19,6 +21,7 @@ public class ReportsService {
     private final StatusService statusService;
     private final ReportRepository reportRepository;
     private final CommentsService commentsService;
+    private final UserTransaction userTransaction;
 
     public Iterable<Report> getAllReports() {
         return reportRepository.findAll();
@@ -36,29 +39,38 @@ public class ReportsService {
         reportRepository.save(report);
     }
 
-    @Transactional
-    public void markReportRejected(int reportId) {
-        Report report = reportRepository.findById(reportId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
-        report.setStatus(statusService.getRejectedStatus());
-        reportRepository.save(report);
+    public void markReportRejected(int reportId) throws SystemException {
+        try {
+            userTransaction.begin();
+            Report report = reportRepository.findById(reportId)
+                    .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
+            report.setStatus(statusService.getRejectedStatus());
+            reportRepository.save(report);
+            userTransaction.commit();
+        } catch (Exception e) {
+            userTransaction.rollback();
+        }
     }
 
-    @Transactional
-    public void markReportAccepted(int reportId) {
-        Report report = reportRepository.findById(reportId)
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
-        Comment comment = report.getComment();
-        commentsService.deleteComment(comment);
+    public void markReportAccepted(int reportId) throws SystemException {
+        try {
+            userTransaction.begin();
+            Report report = reportRepository.findById(reportId)
+                    .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
+            Comment comment = report.getComment();
+            commentsService.deleteComment(comment);
 
-        User commentAuthor = comment.getAuthor();
-        Status acceptedStatus = statusService.getAcceptedStatus();
-        if (reportRepository.countReportsByCommentAuthorAndStatus(commentAuthor, acceptedStatus) >= 1) {
-            userService.banUser(comment.getAuthor());
+            User commentAuthor = comment.getAuthor();
+            Status acceptedStatus = statusService.getAcceptedStatus();
+            if (reportRepository.countReportsByCommentAuthorAndStatus(commentAuthor, acceptedStatus) >= 1) {
+                userService.banUser(comment.getAuthor());
+            }
+
+            report.setStatus(acceptedStatus);
+            reportRepository.save(report);
+        } catch (Exception e) {
+            userTransaction.rollback();
         }
-
-        report.setStatus(acceptedStatus);
-        reportRepository.save(report);
     }
 
     public List<Report> getUserReports(int userId, boolean accepted) {

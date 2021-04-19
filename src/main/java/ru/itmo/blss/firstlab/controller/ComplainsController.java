@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.itmo.blss.firstlab.data.entity.Complain;
 import ru.itmo.blss.firstlab.service.ComplainsService;
 
+import javax.transaction.SystemException;
 import java.security.Principal;
 
 @RestController
@@ -22,7 +23,7 @@ public class ComplainsController {
 
     @PostMapping("/{commentId}/complain")
     @ApiOperation("Пожаловаться на комментарий")
-    public Complain complainForComment(@PathVariable int commentId, @RequestBody String payload, Principal principal) {
+    public Complain complainForComment(@PathVariable int commentId, @RequestBody String payload, Principal principal) throws SystemException {
         return complainsService.newComplainForComment(commentId, payload, principal.getName());
     }
 }

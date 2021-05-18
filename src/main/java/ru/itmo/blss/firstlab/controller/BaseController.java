@@ -9,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/")
 public class BaseController {
-    @GetMapping("/")
+    @GetMapping("/swagger")
     public ModelAndView redirectToSwaggerUi(ModelMap model) {
-        return new ModelAndView("redirect:/swagger-ui.html", model);
+        return new ModelAndView("redirect:swagger-ui/index.html", model);
     }
 }

@@ -1,0 +1,14 @@
+server:
+  port: 9080
+spring:
+  application:
+    name: report
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    initialization-mode: never
+  jta:
+    atomikos:
+      properties:
+        log-base-name: reportLog

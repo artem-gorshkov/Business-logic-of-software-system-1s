@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: main
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  datasource:
+    initialization-mode: always
+  jta:
+    atomikos:
+      properties:
+        log-base-name: mainLog

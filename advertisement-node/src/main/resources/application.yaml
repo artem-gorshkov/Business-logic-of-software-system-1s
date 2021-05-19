@@ -1,0 +1,14 @@
+server:
+  port: 7080
+spring:
+  application:
+    name: advertisement
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    initialization-mode: never
+  jta:
+    atomikos:
+      properties:
+        log-base-name: advertLog

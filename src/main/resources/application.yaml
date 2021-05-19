@@ -1,8 +1,0 @@
-spring:
-  application:
-    name: blss1
-  jpa:
-    hibernate:
-      ddl-auto: create
-  datasource:
-    initialization-mode: always

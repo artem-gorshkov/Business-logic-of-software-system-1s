@@ -27,7 +27,7 @@ public class KafkaService {
 
     @EventListener
     public void receive(ContextRefreshedEvent event ) throws JsonProcessingException {
-        log.error("Чисто проверить");
+        log.info("Start kafka listener");
         consumer.subscribe(Collections.singleton(TOPIC));
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));

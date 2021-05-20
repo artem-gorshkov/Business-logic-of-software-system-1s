@@ -21,3 +21,7 @@ VALUES (-1, 1);
 insert into post (id, created, payload, title, author_id, is_paid)
 VALUES (-1, null, 'А потом ...', 'В начале я не могла поверить, что это моя дочь...', -1, false);
 insert into comment (id, created, deleted, payload, author_id, post_id) VALUES (-1, null, false, 'Отличная история!', -1, -1);
+
+insert into topic values (-1, 'Новый пост каждый час', 'посты от компьютера');
+insert into users (id, blocked, login, password, when_blocked)
+VALUES (-2, false, 'scheduled', 'string', null);

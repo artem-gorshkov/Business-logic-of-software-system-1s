@@ -55,7 +55,7 @@ public class ComplainsService {
             complain = complainRepository.save(complain);
 
             // Important part. Send to kafka!
-            if (complainRepository.countComplainsByComment(comment) > 0) { //TODO: Пока тестирую поставил 0 вместо 5, не забыть убрать
+            if (complainRepository.countComplainsByComment(comment) == 3) {
                 ReportDto reportDto = new ReportDto();
                 reportDto.setCommentId(comment.getId());
                 reportDto.setStatusId(statusService.getSubmittedStatus().getId());

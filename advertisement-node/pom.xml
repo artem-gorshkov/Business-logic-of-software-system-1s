@@ -9,4 +9,10 @@
     </parent>
     <artifactId>advertisement-node</artifactId>
     <description>Business-logic-of-software-system</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -13,3 +13,5 @@ spring:
     atomikos:
       properties:
         log-base-name: mainLog
+kafka:
+  server: "localhost:9092"

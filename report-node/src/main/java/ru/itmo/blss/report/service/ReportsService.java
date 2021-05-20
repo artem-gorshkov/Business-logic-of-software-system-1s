@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import ru.itmo.blss.data.dto.ReportDto;
 import ru.itmo.blss.report.data.entity.Comment;
 import ru.itmo.blss.report.data.entity.Report;
 import ru.itmo.blss.report.data.entity.Status;
@@ -23,6 +24,15 @@ public class ReportsService {
     private final ReportRepository reportRepository;
     private final CommentsService commentsService;
     private final UserTransaction userTransaction;
+
+    public void saveNewReport(ReportDto reportDto) {
+        Report report = new Report();
+        final Comment comment = commentsService.getCommentById(reportDto.getCommentId());
+        report.setComment(comment);
+        final Status status = statusService.getStatusById(reportDto.getStatusId());
+        report.setStatus(status);
+        reportRepository.save(report);
+    }
 
     public Iterable<Report> getAllReports() {
         return reportRepository.findAll();
@@ -63,6 +73,7 @@ public class ReportsService {
 
             report.setStatus(acceptedStatus);
             reportRepository.save(report);
+            userTransaction.commit();
         } catch (Exception e) {
             userTransaction.rollback();
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Транзакция не пошла");

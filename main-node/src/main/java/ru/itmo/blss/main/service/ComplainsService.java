@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.itmo.blss.data.dto.ReportDto;
 import ru.itmo.blss.main.data.entity.Comment;
 import ru.itmo.blss.main.data.entity.Complain;
-import ru.itmo.blss.main.data.entity.Report;
 import ru.itmo.blss.main.data.entity.User;
 import ru.itmo.blss.main.data.repository.ComplainRepository;
 import ru.itmo.blss.main.data.repository.ReportRepository;
@@ -26,6 +26,7 @@ public class ComplainsService {
     private final UserTransaction userTransaction;
     private final StatusService statusService;
     private final ReportRepository reportRepository;
+    private final KafkaService kafkaService;
 
     public Complain getComplainById(int id) {
         return complainRepository.findById(id)
@@ -53,11 +54,12 @@ public class ComplainsService {
             complain.setCreated(LocalDateTime.now());
             complain = complainRepository.save(complain);
 
-            if (complainRepository.countComplainsByComment(comment) == 5) {
-                Report report = new Report();
-                report.setComment(comment);
-                report.setStatus(statusService.getSubmittedStatus());
-                reportRepository.save(report);
+            // Important part. Send to kafka!
+            if (complainRepository.countComplainsByComment(comment) > 0) { //TODO: Пока тестирую поставил 0 вместо 5, не забыть убрать
+                ReportDto reportDto = new ReportDto();
+                reportDto.setCommentId(comment.getId());
+                reportDto.setStatusId(statusService.getSubmittedStatus().getId());
+                kafkaService.send(reportDto);
             }
             userTransaction.commit();
             return complain;

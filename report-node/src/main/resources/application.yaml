@@ -12,3 +12,6 @@ spring:
     atomikos:
       properties:
         log-base-name: reportLog
+kafka:
+  server: "localhost:9092"
+  groupId: "report"

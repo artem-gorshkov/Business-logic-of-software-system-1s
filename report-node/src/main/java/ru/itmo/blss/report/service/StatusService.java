@@ -21,4 +21,8 @@ public class StatusService {
     public Status getAcceptedStatus() {
         return statusRepository.getStatusByName("Accepted");
     }
+
+    public Status getStatusById(Integer id) {
+        return statusRepository.getStatusById(id);
+    }
 }

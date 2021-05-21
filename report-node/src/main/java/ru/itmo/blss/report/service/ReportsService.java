@@ -1,9 +1,7 @@
 package ru.itmo.blss.report.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ru.itmo.blss.data.dto.ReportDto;
 import ru.itmo.blss.report.data.entity.Comment;
 import ru.itmo.blss.report.data.entity.Report;
@@ -12,7 +10,7 @@ import ru.itmo.blss.report.data.entity.User;
 import ru.itmo.blss.report.data.repository.ReportRepository;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.SystemException;
+import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.util.List;
 
@@ -43,23 +41,16 @@ public class ReportsService {
         return reportRepository.getAllByStatus(submittedStatus);
     }
 
-    public void markReportRejected(int reportId) throws SystemException {
-        try {
-            userTransaction.begin();
+    @Transactional
+    public void markReportRejected(int reportId) {
             Report report = reportRepository.findById(reportId)
                     .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
             report.setStatus(statusService.getRejectedStatus());
             reportRepository.save(report);
-            userTransaction.commit();
-        } catch (Exception e) {
-            userTransaction.rollback();
-            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Транзакция не пошла");
-        }
     }
 
-    public void markReportAccepted(int reportId) throws SystemException {
-        try {
-            userTransaction.begin();
+    @Transactional
+    public void markReportAccepted(int reportId) {
             Report report = reportRepository.findById(reportId)
                     .orElseThrow(() -> new EntityNotFoundException(String.valueOf(reportId)));
             Comment comment = report.getComment();
@@ -73,11 +64,6 @@ public class ReportsService {
 
             report.setStatus(acceptedStatus);
             reportRepository.save(report);
-            userTransaction.commit();
-        } catch (Exception e) {
-            userTransaction.rollback();
-            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Транзакция не пошла");
-        }
     }
 
     public List<Report> getUserReports(int userId, boolean accepted) {

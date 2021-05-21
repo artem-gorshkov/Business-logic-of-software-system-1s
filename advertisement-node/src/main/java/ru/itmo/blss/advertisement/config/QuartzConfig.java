@@ -19,7 +19,8 @@ public class QuartzConfig {
     @Bean
     public JobDetail jobDetail() {
 
-        return newJob().ofType(PostAdvertJob.class).storeDurably().withIdentity(JobKey.jobKey("Qrtz_Job_Detail")).withDescription("Invoke Advert Job service...").build();
+        return newJob().ofType(PostAdvertJob.class).storeDurably().withIdentity(JobKey.jobKey("Qrtz_Job_Detail"))
+                .withDescription("Invoke Advert Job service...").build();
     }
 
     @Bean
@@ -28,6 +29,7 @@ public class QuartzConfig {
         int frequencyInSec = 10;
         log.info("Configuring trigger to fire every {} seconds", frequencyInSec);
 
-        return newTrigger().forJob(job).withIdentity(TriggerKey.triggerKey("Qrtz_Trigger")).withDescription("Advert trigger").withSchedule(simpleSchedule().withIntervalInSeconds(frequencyInSec).repeatForever()).build();
+        return newTrigger().forJob(job).withIdentity(TriggerKey.triggerKey("Qrtz_Trigger")).withDescription("Advert trigger")
+                .withSchedule(simpleSchedule().withIntervalInSeconds(frequencyInSec).repeatForever()).build();
     }
 }

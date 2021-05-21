@@ -33,8 +33,13 @@ public class KafkaService {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
             for (ConsumerRecord<String, String> record : records) {
                 log.info("Receive {} with offset {}", record.value(), record.offset());
-                final ReportDto reportDto = objectMapper.readValue(record.value(), ReportDto.class);
+                final ReportDto reportDto;
+                try {
+                    reportDto = objectMapper.readValue(record.value(), ReportDto.class);
                 reportService.saveNewReport(reportDto);
+                } catch (JsonProcessingException e) {
+                    log.error(e.getMessage(), e);
+                }
             }
         }
     }

@@ -26,7 +26,7 @@ public class KafkaService {
     private final ReportsService reportService;
 
     @EventListener
-    public void receive(ContextRefreshedEvent event ) throws JsonProcessingException {
+    public void receive(ContextRefreshedEvent event) throws JsonProcessingException {
         log.info("Start kafka listener");
         consumer.subscribe(Collections.singleton(TOPIC));
         while (true) {

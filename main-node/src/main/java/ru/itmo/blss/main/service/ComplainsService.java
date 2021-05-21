@@ -3,14 +3,12 @@ package ru.itmo.blss.main.service;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.itmo.blss.data.dto.ReportDto;
 import ru.itmo.blss.main.data.entity.Comment;
 import ru.itmo.blss.main.data.entity.Complain;
 import ru.itmo.blss.main.data.entity.User;
 import ru.itmo.blss.main.data.repository.ComplainRepository;
-import ru.itmo.blss.main.data.repository.ReportRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.SystemException;
@@ -25,7 +23,6 @@ public class ComplainsService {
     private final CommentsService commentsService;
     private final UserTransaction userTransaction;
     private final StatusService statusService;
-    private final ReportRepository reportRepository;
     private final KafkaService kafkaService;
 
     public Complain getComplainById(int id) {
@@ -33,7 +30,6 @@ public class ComplainsService {
                 .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
-    @Transactional
     public Complain newComplainForComment(int commentId, String payload, String login) throws SystemException {
         try {
             userTransaction.begin();

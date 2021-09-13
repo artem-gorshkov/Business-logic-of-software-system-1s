@@ -1,4 +1,4 @@
-package ru.itmo.blss.main.config;
+package ru.itmo.blss.report.property;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,4 +11,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "kafka", ignoreUnknownFields = false)
 public class KafkaProperty {
     private String server;
+    private String groupId;
 }

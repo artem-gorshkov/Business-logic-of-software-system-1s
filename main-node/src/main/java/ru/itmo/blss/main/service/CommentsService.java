@@ -15,13 +15,10 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CommentsService {
+    public static final String REASON = "Недостаточно прав";
     private final CommentRepository commentRepository;
     private final UserService userService;
     private final PostsService postsService;
-
-    public List<Comment> getPostComments(Post post) {
-        return commentRepository.findCommentsByPost(post);
-    }
 
     public List<Comment> getPostComments(int postId) {
         return commentRepository.findCommentsByPostId(postId);
@@ -51,7 +48,7 @@ public class CommentsService {
         if (isCommentAuthor(login, comment)) {
             deleteComment(comment);
         } else  {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Недостаточно прав");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, REASON);
         }
     }
 
@@ -59,7 +56,7 @@ public class CommentsService {
         return comment.getAuthor().getLogin().equals(login);
     }
 
-    public void deleteComment(Comment comment) {
+    private void deleteComment(Comment comment) {
         comment.setDeleted(true);
         commentRepository.save(comment);
     }

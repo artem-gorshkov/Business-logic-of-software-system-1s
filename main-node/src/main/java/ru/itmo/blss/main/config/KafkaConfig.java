@@ -5,6 +5,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.itmo.blss.main.property.KafkaProperty;
 
 import java.util.Properties;
 
@@ -19,7 +20,7 @@ public class KafkaConfig {
         Properties props = new Properties();
         props.put("bootstrap.servers", kafkaProperty.getServer());
         props.put("acks", "all");
-        props.put("linger.ms", 1);
+        props.put("linger.ms", kafkaProperty.getLingerMs());
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         return new KafkaProducer<>(props);

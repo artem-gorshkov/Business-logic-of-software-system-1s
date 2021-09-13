@@ -11,7 +11,6 @@ import ru.itmo.blss.report.data.repository.ReportRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
 import java.util.List;
 
 @Service
@@ -21,7 +20,6 @@ public class ReportsService {
     private final StatusService statusService;
     private final ReportRepository reportRepository;
     private final CommentsService commentsService;
-    private final UserTransaction userTransaction;
 
     public void saveNewReport(ReportDto reportDto) {
         Report report = new Report();

@@ -14,5 +14,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
+        <!--DTO and Entity-->
+        <dependency>
+            <groupId>ru.itmo.blss</groupId>
+            <artifactId>data-module</artifactId>
+            <version>3.0</version>
+        </dependency>
     </dependencies>
 </project>

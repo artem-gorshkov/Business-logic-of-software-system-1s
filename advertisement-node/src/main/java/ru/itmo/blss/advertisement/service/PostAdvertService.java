@@ -14,11 +14,17 @@ public class PostAdvertService {
     private final PostsService postsService;
 
     public void execute() {
+        postsService.newPost(createPostDTO(), "scheduled", true);
+        count++;
+    }
+
+    private PostDTO createPostDTO() {
         byte[] array = new byte[20];
         new Random().nextBytes(array);
         String generatedString = new String(array, StandardCharsets.UTF_8);
-        final PostDTO postDto = new PostDTO(String.format("Пост, написанный компьютером №%d", count), "посты от компьютера", generatedString);
-        postsService.newPost(postDto, "scheduled", true);
-        count++;
+        return new PostDTO(
+                String.format("Пост, написанный компьютером №%d", count),
+                "посты от компьютера",
+                generatedString);
     }
 }

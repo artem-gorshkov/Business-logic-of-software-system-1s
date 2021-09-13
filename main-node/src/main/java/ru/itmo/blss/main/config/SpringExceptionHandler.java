@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.persistence.EntityNotFoundException;
 
 @ControllerAdvice
-public class SpringExceptionController extends ResponseEntityExceptionHandler {
+public class SpringExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({EntityNotFoundException.class})
     protected ResponseEntity<Object> handleConflict(EntityNotFoundException ex, WebRequest request) {

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.itmo.blss.report.data.entity.Report;
 import ru.itmo.blss.report.service.ReportsService;
 
-import javax.transaction.SystemException;
 import java.util.List;
 
 @RestController
@@ -38,13 +37,13 @@ public class ReportsController {
 
     @PostMapping("/{id}/accept")
     @ApiOperation("Принять репорт")
-    public void acceptReport(@PathVariable int id) throws SystemException {
+    public void acceptReport(@PathVariable int id) {
         reportsService.markReportAccepted(id);
     }
 
     @PostMapping("/{id}/reject")
     @ApiOperation("Отклонить репорт")
-    public void rejectReport(@PathVariable int id) throws SystemException {
+    public void rejectReport(@PathVariable int id) {
         reportsService.markReportRejected(id);
     }
 }

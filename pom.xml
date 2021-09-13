@@ -15,6 +15,7 @@
     <name>BLSS_3</name>
     <description>Business-logic-of-software-system</description>
     <modules>
+        <module>data-module</module>
         <module>main-node</module>
         <module>report-node</module>
         <module>advertisement-node</module>
@@ -23,12 +24,6 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
-        <!--DTO and Entity-->
-        <dependency>
-            <groupId>ru.itmo.blss</groupId>
-            <artifactId>data-module</artifactId>
-            <version>3.0</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>

@@ -15,5 +15,11 @@
             <artifactId>spring-boot-starter-jta-atomikos</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!--DTO and Entity-->
+        <dependency>
+            <groupId>ru.itmo.blss</groupId>
+            <artifactId>data-module</artifactId>
+            <version>3.0</version>
+        </dependency>
     </dependencies>
 </project>

@@ -20,13 +20,13 @@ public class KafkaService {
     private final Producer<String, String> producer;
     private final ObjectMapper objectMapper;
 
-    public void send(Object obj) throws JsonProcessingException {
-        final String msg = objectMapper.writeValueAsString(obj);
+    public void send(Object obj) {
         try {
+            final String msg = objectMapper.writeValueAsString(obj);
             final ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC, msg);
             RecordMetadata metadata = producer.send(record).get();
             log.info("sent record {} with offset {}", record.value(), metadata.offset());
-        } catch (InterruptedException|ExecutionException e) {
+        } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
             log.error(e.getMessage(), e);
         }
     }

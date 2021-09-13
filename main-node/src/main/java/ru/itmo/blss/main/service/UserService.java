@@ -10,7 +10,6 @@ import ru.itmo.blss.main.data.repository.RoleRepository;
 import ru.itmo.blss.main.data.repository.UsersRepository;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,12 +55,7 @@ public class UserService {
         return usersRepository.save(user);
     }
 
-    public void banUser(User user) {
-        user.setBlocked(true);
-        user.setWhenBlocked(LocalDateTime.now());
-    }
-
-    public User newModerator(UserDTO userDTO) {
+    public void newModerator(UserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.login);
         user.setPassword(passwordEncoder.encode(userDTO.password));
@@ -73,10 +67,10 @@ public class UserService {
         roles.add(roleUser);
         user.setRoles(roles);
 
-        return usersRepository.save(user);
+        usersRepository.save(user);
     }
 
-    public User newAdmin(UserDTO userDTO) {
+    public void newAdmin(UserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.login);
         user.setPassword(passwordEncoder.encode(userDTO.password));
@@ -92,10 +86,10 @@ public class UserService {
         roles.add(roleAdvert);
         user.setRoles(roles);
 
-        return usersRepository.save(user);
+        usersRepository.save(user);
     }
 
-    public User newAdvert(UserDTO userDTO) {
+    public void newAdvert(UserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.login);
         user.setPassword(passwordEncoder.encode(userDTO.password));
@@ -107,6 +101,6 @@ public class UserService {
         roles.add(roleUser);
         user.setRoles(roles);
 
-        return usersRepository.save(user);
+        usersRepository.save(user);
     }
 }

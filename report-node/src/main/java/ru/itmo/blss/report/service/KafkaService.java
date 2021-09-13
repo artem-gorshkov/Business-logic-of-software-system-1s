@@ -26,7 +26,7 @@ public class KafkaService {
     private final ReportsService reportService;
 
     @EventListener
-    public void receive(ContextRefreshedEvent event) throws JsonProcessingException {
+    public void receive(ContextRefreshedEvent event) {
         log.info("Start kafka listener");
         consumer.subscribe(Collections.singleton(TOPIC));
         while (true) {
@@ -36,7 +36,7 @@ public class KafkaService {
                 final ReportDto reportDto;
                 try {
                     reportDto = objectMapper.readValue(record.value(), ReportDto.class);
-                reportService.saveNewReport(reportDto);
+                    reportService.saveNewReport(reportDto);
                 } catch (JsonProcessingException e) {
                     log.error(e.getMessage(), e);
                 }

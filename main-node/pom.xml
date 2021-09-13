@@ -13,4 +13,12 @@
         <springfox.version>3.0.0</springfox.version>
         <java.version>1.8</java.version>
     </properties>
+    <dependencies>
+        <!--DTO and Entity-->
+        <dependency>
+            <groupId>ru.itmo.blss</groupId>
+            <artifactId>data-module</artifactId>
+            <version>3.0</version>
+        </dependency>
+    </dependencies>
 </project>
